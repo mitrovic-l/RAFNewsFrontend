@@ -6,78 +6,75 @@
         <p>{{ news.categoryName }}</p>
         <p>{{ news.content }}</p>
 
-        <p>Tags: </p>
-        <p v-for="tag in news.tags" :key="tag.tag">
+       <br>
+       <h5>Tags:</h5>
+        <button v-for="tag in news.tags" :key="tag.id" class="btn btn-outline-info tagsBtn" @click="goToTag(tag.id)">
             {{ tag.tag }}
-        </p>
+        </button>
         <br>
         <br>
-        <!-- forma ide ovde -->
-        <div class="commentform">
-            <b-container>
-        <br>
-        <h5>Leave a comment</h5>
-        <b-form @submit.stop.prevent @submit="onSubmit">
-            <b-form-group label="Name" label-for="username">
-                <b-form-input :state="validatorUsername" id="username" v-model="form.username" type="text"
-                    placeholder="Name" required></b-form-input>
-                <b-form-invalid-feedback :state="validatorUsername">
-                    Name cannot be empty.
-                </b-form-invalid-feedback>
-            </b-form-group>
-            <b-form-group label="Comment:" label-for="comment">
-                <b-form-textarea :state="validatorComment" id="comment" v-model="form.comment" type="text"
-                    placeholder="Comment" required></b-form-textarea>
-                <b-form-invalid-feedback :state="validatorComment">
-                    Comment cannot be empty.
-                </b-form-invalid-feedback>
-            </b-form-group>
-            <b-form-valid-feedback :state="validatorUsername && validatorComment">
-                Looks good!
-            </b-form-valid-feedback>
-            <b-button type="submit" variant="success" id="combtn" :disabled="isGood">Post comment</b-button>
-        </b-form>
-    </b-container>
-        </div>
+                <br>
+                <h5>Leave a comment</h5>
+                <b-form @submit.stop.prevent @submit="onSubmit" class="commentsform">
+                    <b-form-group label="Name" label-for="username">
+                        <b-form-input :state="validatorUsername" id="username" v-model="form.username" type="text"
+                            placeholder="Name" required></b-form-input>
+                        <b-form-invalid-feedback :state="validatorUsername">
+                            Name cannot be empty.
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group label="Comment:" label-for="comment">
+                        <b-form-textarea :state="validatorComment" id="comment" v-model="form.comment" type="text"
+                            placeholder="Comment" required></b-form-textarea>
+                        <b-form-invalid-feedback :state="validatorComment">
+                            Comment cannot be empty.
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-valid-feedback :state="validatorUsername && validatorComment">
+                        Looks good!
+                    </b-form-valid-feedback>
+                    <b-button type="submit" variant="success" id="combtn" :disabled="isGood">Post comment</b-button>
+                </b-form>
         <h3>Comments</h3>
-        <div class="divcomments" v-for="comment in news.comments" :key="comment.author+news.id">
+        <div class="divcomments" v-for="comment in news.comments" :key="comment.author + news.id">
             <h5>{{ comment.author }}</h5>
             <p>{{ comment.text }}
-            <br>
-            <small class="pdate">{{ comment.postedAt }}</small>
+                <br>
+                
             </p>
-            
+            <small class="pdate">{{ comment.postedAt }}</small>
+
         </div>
     </div>
 </template>
 <script>
 
-export default{
+export default {
     name: 'NewsC',
     props: {
         news: {
             type: Object
         }
     },
-    data(){
-        return{
+    data() {
+        return {
             form: {
                 username: '',
                 comment: ''
             }
         }
     },
-    mounted(){
+    mounted() {
     },
     methods: {
-        onSubmit(e){
+        onSubmit(e) {
             e.preventDefault();
             let id = this.$route.params.id;
-            if (!this.validatorComment || !this.validatorUsername){
+            if (!this.validatorComment || !this.validatorUsername) {
                 alert("You must enter a name and a comment.")
                 return;
             }
-            this.$axios.post('/api/comments/'+id, {
+            this.$axios.post('/api/comments/' + id, {
                 author: this.form.username,
                 text: this.form.comment
             }).then((response => {
@@ -87,37 +84,43 @@ export default{
                 this.news.comments.unshift(comm);
                 this.$forceUpdate();
             }))
+        },
+        goToTag(tag){
+            console.log(tag);
+            this.$router.push('/news/withtag/'+tag);
         }
     },
     computed: {
-        validatorUsername(){
+        validatorUsername() {
             return this.form.username.length >= 1 && this.form.username.length <= 128;
         },
-        validatorComment(){
+        validatorComment() {
             return this.form.comment.length >= 1 && this.form.comment.length <= 1024;
         },
-        isUEmpty(){
+        isUEmpty() {
             return this.form.username.length === 0;
         },
-        isCEmpty(){
+        isCEmpty() {
             return this.form.comment.length === 0;
         },
-        isGood(){
+        isGood() {
             return !(this.validatorComment && this.validatorUsername);
         }
     }
 }
 </script>
 <style>
-.pdate{
-    margin-top: 0px;
-    padding-top: 0px;
+.pdate {
+    margin-bottom: 0;
+    padding-bottom: 0;
     color: gray;
 }
-.pauthor{
+
+.pauthor {
     font-weight: 600;
 }
-.divcomments{
+
+.divcomments {
     margin-top: 8px;
     margin-bottom: 8px;
     border: 1px solid gray;
@@ -128,10 +131,15 @@ export default{
     margin-bottom: 8px;
     cursor: pointer;
 }
-.singlenews{
+.commentsform{
+    padding-bottom: 32px;
+}
+
+.singlenews {
     padding-top: 24px;
 }
-.commentform{
-    padding-bottom: 12px;
+
+.tagsBtn{
+    margin-right: 8px;
 }
 </style>

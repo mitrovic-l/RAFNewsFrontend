@@ -6,6 +6,7 @@ import News from '../views/News.vue'
 import SingleNews from '../views/SingleNews.vue'
 import PopularNews from '../views/PopularNews.vue'
 import NewsInCategory from '../views/NewsInCategory.vue'
+import NewsWithTag from '../views/NewsWithTag.vue'
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,11 @@ const routes = [
     path: '/category/:id',
     name: 'Category',
     component: NewsInCategory
+  },
+  {
+    path: '/news/withtag/:id',
+    name: 'NewsWithTag',
+    component: NewsWithTag
   }
 ]
 
