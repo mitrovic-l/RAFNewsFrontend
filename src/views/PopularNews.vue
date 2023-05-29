@@ -5,7 +5,7 @@
         <div class="newsInfoDiv" v-for="news in newsList" :key="news.id" @click="goToNews(news.id)">
             <h3><b>{{ news.title }}</b></h3>
             <p> ( {{ news.categoryName }} )</p>
-            <h5>{{ news.author }}</h5>
+            <!-- <h5>{{ news.author }}</h5> -->
             <p>{{ news.createdAt }}</p>
             <p>{{ news.content | shortText }}</p>
         </div>

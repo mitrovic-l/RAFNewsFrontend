@@ -1,11 +1,11 @@
 <template>
     <div class="news">
-        <br><h1>Latest news</h1><br>
+        <br><h1>Latest news from <b>{{ category }}</b> </h1><br>
 
         <div class="newsInfoDiv" v-for="news in newsList" :key="news.id" @click="goToNews(news.id)">
             <h3><b>{{ news.title }}</b></h3>
-            <p> ( {{ news.categoryName }} )</p>
-            <h5>{{ news.author }}</h5>
+            <!-- <p> ( {{ news.categoryName }} )</p> -->
+            <!-- <h5>{{ news.author }}</h5> -->
             <p>{{ news.createdAt }}</p>
             <p>{{ news.content | shortText }}</p>
         </div>
@@ -17,26 +17,14 @@ export default ({
     data() {
         return {
             newsList: [],
-            newsCategoryList: []
+            category: ''
         }
     },
     mounted() {
         let id = this.$route.params.id;
         this.$axios.get('/api/news/category/'+id).then((response) => {
             this.newsList = response.data;
-            for (const n of this.newsList){
-                this.$axios.get('/api/categories/').then((response2) => {
-                    const categories = response2.data;
-                    //console.log(response2.data);
-                    for (const category of categories){
-                        if (category.id === n.category_id){
-                            n.category = category.name;
-                            this.newsCategoryList[n.id] = category.name.toString();
-                        }
-                    }
-                })
-            }
-            //console.log(response);
+            this.category = this.newsList[0].categoryName;
             console.log(this.newsList);
         })
     },

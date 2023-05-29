@@ -60,4 +60,7 @@ export default{
     margin-bottom: 8px;
     cursor: pointer;
 }
+.singlenews{
+    padding-top: 24px;
+}
 </style>
