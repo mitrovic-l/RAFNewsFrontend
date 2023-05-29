@@ -2,13 +2,23 @@
     <div class="news">
         <br><h1>Latest news from <b>{{ category }}</b> </h1><br>
 
-        <div class="newsInfoDiv" v-for="news in newsList" :key="news.id" @click="goToNews(news.id)">
+        <!-- <div class="newsInfoDiv" v-for="news in newsList" :key="news.id" @click="goToNews(news.id)">
             <h3><b>{{ news.title }}</b></h3>
-            <!-- <p> ( {{ news.categoryName }} )</p> -->
-            <!-- <h5>{{ news.author }}</h5> -->
             <p>{{ news.createdAt }}</p>
             <p>{{ news.content | shortText }}</p>
-        </div>
+        </div> -->
+        <ul id="itemList">
+            <li v-for="news in itemsForList" :key="news.id">
+                <div class="newsInfoDiv" @click="goToNews(news.id)">
+                    <h3><b>{{ news.title }}</b></h3>
+                    <p> ( {{ news.categoryName }} )</p>
+                    <p>{{ news.createdAt }}</p>
+                    <p>{{ news.content | shortText }}</p>
+                </div>
+            </li>
+        </ul>
+        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="itemList" align="center">
+        </b-pagination>
 
     </div>
 </template>
@@ -17,7 +27,15 @@ export default ({
     data() {
         return {
             newsList: [],
-            category: ''
+            category: '',
+            perPage: 2,
+            currentPage: 1,
+            get itemsForList() {
+                return this.newsList.slice(
+                    (this.currentPage - 1) * this.perPage,
+                    this.currentPage * this.perPage,
+                );
+            }
         }
     },
     mounted() {
@@ -42,6 +60,11 @@ export default ({
             console.log('KLIKNUTO NA ' + id);
             this.$router.push('/news/'+id);
         }
+    },
+    computed: {
+        rows() {
+            return this.newsList.length;
+        }
     }
 })
 </script>
@@ -65,5 +88,8 @@ export default ({
     padding-bottom: 12px;
     margin-bottom: 8px;
     cursor: pointer;
+}
+ul{
+    list-style-type: none;
 }
 </style>
