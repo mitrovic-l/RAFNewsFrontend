@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-
-
-    <Navigation_Bar/>
-    <!-- <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav> -->
-    <router-view/>
+    <Navigation_Bar />
+    <div class="container">
+      <router-view />
+    </div>
+    <div id="footer">
+      <FooterC />
+    </div>
   </div>
 </template>
 
 <script>
-  import Navigation_Bar from '../src/components/NavigationBar.vue';
-  export default{
-    components: {Navigation_Bar}
-  }
+import Navigation_Bar from '../src/components/NavigationBar.vue';
+import FooterC from '../src/components/Footer.vue';
+export default {
+  components: { Navigation_Bar, FooterC }
+}
 </script>
 
 <style>
@@ -25,18 +25,21 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #f2f4f5;
+  position: relative;
+  min-height: 100vh;
+  /* background-color: #FFFDFA; */
 }
 
-nav {
-  padding: 30px;
+#footer {
+  bottom: 0;
+  position: absolute;
+  /* margin-top: auto; */
+  width: 100%;
+  height: 2.5rem;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.container {
+  padding-bottom: 2.5rem;
 }
 </style>
