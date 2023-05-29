@@ -52,7 +52,9 @@ export default {
                     password: this.form.password
                 }).then((response) => {
                     localStorage.setItem('token', response.data.jwt);
-                    this.$router.push({ name: 'Home' });
+                    this.$parent.jwttoken = response.data.jwt;
+                    this.$router.push({ name: 'News' });
+                    this.$root.jwttoken = response.data.jwt;
                 }, () => {
                     this.$alert("INCORRECT");
                 })

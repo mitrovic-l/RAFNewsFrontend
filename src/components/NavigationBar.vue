@@ -27,9 +27,14 @@
                             }}</b-dropdown-item>
                         </b-dropdown>
                     </li>
+                    <li class="nav-item" v-if="canLogout">
+                        <router-link :to="{name: 'AddNews'}" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'AddNews'}">Add News</router-link>
+                    </li>
+
+
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <router-link v-if="!isJwtSet" :to="{name: 'Login'}" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Login'}">Log In</router-link>
+                    <router-link v-if="!canLogout" :to="{name: 'Login'}" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Login'}">Log In</router-link>
                     <div v-else>
                         <button class="btn btn-outline-success" @click="logOut">Log Out</button>
                     </div>
@@ -41,8 +46,15 @@
 <script>
 export default {
     name: 'Navigation_Bar',
-    computed: {
-        
+    props: {
+        jwttoken: ''
+    },
+    watch: {
+        jwttoken(newVal, oldVal){
+            console.log("NAVBAR ISPIS, PROMENJEN TOKEN!!!!!");
+            this.token = newVal;
+            this.$forceUpdate();
+        }
     },
    async created(){
     this.isJwtSet = localStorage.getItem('token');
@@ -51,12 +63,13 @@ export default {
         return {
             selectedCategory: null,
             categoryList: [],
-            token: null,
+            token: '',
             isJwtSet: null
         }
     },
     mounted() {
-        //isJwtSet();
+        let a = localStorage.getItem('token');
+        console.log("TOKEN: " +a);
 
         fetch('http://127.0.0.1:8090/api/categories')
             .then(response => {
@@ -72,12 +85,19 @@ export default {
             this.token = null;
             this.$forceUpdate();
             this.$router.push({name: 'Login'});
-
         },
         findInCategory(id){
             this.$router.push('/category/'+id).then(() => {
                 this.$forceUpdate();
             });
+        }
+    },
+    computed: {
+        canLogout(){
+            if (this.token == ''){
+                return false;
+            }
+            return true;
         }
     }
 }

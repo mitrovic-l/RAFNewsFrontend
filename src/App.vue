@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navigation_Bar />
+    <Navigation_Bar :jwttoken="jwttoken"/>
     <div class="container">
       <router-view />
     </div>
@@ -14,7 +14,12 @@
 import Navigation_Bar from '../src/components/NavigationBar.vue';
 import FooterC from '../src/components/Footer.vue';
 export default {
-  components: { Navigation_Bar, FooterC }
+  components: { Navigation_Bar, FooterC },
+  data(){
+    return{
+      jwttoken: ''
+    }
+  }
 }
 </script>
 
