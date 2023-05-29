@@ -28,10 +28,16 @@
                         </b-dropdown>
                     </li>
                     <li class="nav-item" v-if="canLogout">
-                        <router-link :to="{name: 'AddNews'}" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'AddNews'}">Add News</router-link>
+                        <router-link :to="{name: 'AddNews'}"  class="nav-link" :class="{active: this.$router.currentRoute.name === 'AddNews'}">Add News</router-link>
                     </li>
 
 
+                </ul>
+                <ul class="navbar-nav ms-auto" v-if="canLogout">
+                    <li class="nav-item">
+                        <!-- <router-link :to="{name: 'Login'}" tag="a" class="nav-link disabled" disabled> Hello, {{ user }}</router-link> -->
+                        <p class="customlink">Hello, {{ user }}</p>
+                    </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <router-link v-if="!canLogout" :to="{name: 'Login'}" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Login'}">Log In</router-link>
@@ -44,62 +50,74 @@
     </div>
 </template>
 <script>
+import router from '@/router';
+
 export default {
-    name: 'Navigation_Bar',
+    name: "Navigation_Bar",
     props: {
-        jwttoken: ''
+        jwttoken: ""
     },
     watch: {
-        jwttoken(newVal, oldVal){
+        jwttoken(newVal, oldVal) {
             console.log("NAVBAR ISPIS, PROMENJEN TOKEN!!!!!");
             this.token = newVal;
+            if (this.token != null) {
+                let payload = this.token.split(".")[1];
+                let u = JSON.parse(atob(payload));
+                let username = JSON.stringify(u.sub);
+                this.user = username;
+            }
             this.$forceUpdate();
         }
     },
-   async created(){
-    this.isJwtSet = localStorage.getItem('token');
+    async created() {
+        this.isJwtSet = localStorage.getItem("token");
     },
     data() {
         return {
             selectedCategory: null,
             categoryList: [],
-            token: '',
-            isJwtSet: null
-        }
+            token: "",
+            isJwtSet: null,
+            user: ""
+        };
     },
     mounted() {
-        let a = localStorage.getItem('token');
-        console.log("TOKEN: " +a);
-
-        fetch('http://127.0.0.1:8090/api/categories')
+        let a = localStorage.getItem("token");
+        console.log("TOKEN: " + a);
+        fetch("http://127.0.0.1:8090/api/categories")
             .then(response => {
-                return response.json();
-            }).then(ctgs => {
-                console.log(JSON.stringify(ctgs));
-                this.categoryList = ctgs;
-            })
+            return response.json();
+        }).then(ctgs => {
+            console.log(JSON.stringify(ctgs));
+            this.categoryList = ctgs;
+        });
     },
     methods: {
-        logOut(){
-            localStorage.removeItem('token');
+        logOut() {
+            localStorage.removeItem("token");
             this.token = null;
             this.$forceUpdate();
-            this.$router.push({name: 'Login'});
+            this.$router.push({ name: "Login" });
         },
-        findInCategory(id){
-            this.$router.push('/category/'+id).then(() => {
+        findInCategory(id) {
+            this.$router.push("/category/" + id).then(() => {
                 this.$forceUpdate();
             });
+        },
+        getUser() {
+            return username;
         }
     },
     computed: {
-        canLogout(){
-            if (this.token == ''){
+        canLogout() {
+            if (this.token == "") {
                 return false;
             }
             return true;
         }
-    }
+    },
+    components: { router }
 }
 </script>
 <style scoped>
@@ -107,4 +125,10 @@ export default {
     margin-top: 3px;
     height: 35px;
 }
+.customlink{
+    color: #198754;
+    margin-top: 14px;
+    margin-right: 12px;
+}
+
 </style>

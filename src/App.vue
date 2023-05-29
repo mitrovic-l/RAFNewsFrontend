@@ -19,6 +19,14 @@ export default {
     return{
       jwttoken: ''
     }
+  },
+  mounted(){
+    let a = localStorage.getItem('token');
+    if (a === null){
+      this.jwttoken = '';
+    } else {
+      this.jwttoken = a;
+    }
   }
 }
 </script>

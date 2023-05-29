@@ -56,7 +56,8 @@ export default {
                     this.$router.push({ name: 'News' });
                     this.$root.jwttoken = response.data.jwt;
                 }, () => {
-                    this.$alert("INCORRECT");
+                    alert("INCORRECT CREDENTIALS OR YOUR STATUS IS INACTIVE!");
+                    this.form.password = '';
                 })
             }
         }
