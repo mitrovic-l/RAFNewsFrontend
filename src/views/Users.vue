@@ -2,12 +2,14 @@
     <div class="users">
         <br>
         <h1>All users</h1><br>
+        <button type="button" class="btn btn-primary" @click="addUser"> Add a new user </button>
+        <hr>
         <ul id="itemList">
             <li v-for="user in itemsForList" :key="user.id">
                 <div class="userInfoDiv">
                     <!-- ubaci tabelu ovde -->
                     <br>
-                    <b><h4>USER: {{ user.firstname }} {{ user.lastname }}</h4></b>
+                    <b><h4><u>USER: {{ user.firstname }} {{ user.lastname }} </u></h4></b>
                     <hr>
                     <div class="userInfoDiv" style="text-align: justify;">
                         <b>
@@ -19,8 +21,8 @@
 
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button v-if="isCreator(user.type)" type="button" class="btn btn-outline-primary" @click="changeStatus(user.id, user.status)">Change status</button>
-                        <button type="button" class="btn btn-secondary" @click="">Edit</button>
-                        <button type="button" class="btn btn-danger" @click="">Delete</button>
+                        <button type="button" class="btn btn-secondary" @click="editUser(user.id)">Edit</button>
+                        <button type="button" class="btn btn-danger" @click="deleteUser(user.id)">Delete</button>
                     </div>
                 </div>
             </li>
@@ -102,10 +104,26 @@ export default {
             }
             if (email != ''){
                 this.$axios.get('/api/users/status/'+email).then((response => {
-                    const p = document.getElementById(id);
-                    p.innerText = '';
-                    p.innerText = 'STATUS: ' + newstatus;
-                    this.$forceUpdate();
+                    window.location.reload();
+                }));
+            }
+        },
+        editUser(id){
+            this.$router.push('/edituser/'+id);
+        },
+        addUser(){
+            this.$router.push({name: 'AddUser'});
+        },
+        deleteUser(id){
+            let email = '';
+            for (const u of this.userList){
+                if (id == u.id){
+                    email = u.email;
+                }
+            }
+            if (email != '') {
+                this.$axios.delete('/api/users/delete/'+email).then((response => {
+                    window.location.reload();
                 }));
             }
         }
