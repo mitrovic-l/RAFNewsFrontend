@@ -125,7 +125,7 @@ export default {
         },
         goToUsers(){
             console.log("users");
-            //this.$router.push({name: "Users"});
+            this.$router.push({name: "Users"});
         }
     },
     computed: {

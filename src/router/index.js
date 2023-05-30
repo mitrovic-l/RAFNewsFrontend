@@ -9,6 +9,7 @@ import NewsInCategory from '../views/NewsInCategory.vue'
 import NewsWithTag from '../views/NewsWithTag.vue'
 import AddNews from '../views/AddNews.vue'
 import AddUser from '../views/AddUser.vue'
+import Users from '../views/Users.vue'
 
 Vue.use(VueRouter)
 
@@ -65,6 +66,11 @@ const routes = [
     path: '/adduser',
     name: 'AddUser',
     component: AddUser
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: Users
   }
 ]
 
