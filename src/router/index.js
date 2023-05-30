@@ -8,6 +8,7 @@ import PopularNews from '../views/PopularNews.vue'
 import NewsInCategory from '../views/NewsInCategory.vue'
 import NewsWithTag from '../views/NewsWithTag.vue'
 import AddNews from '../views/AddNews.vue'
+import AddUser from '../views/AddUser.vue'
 
 Vue.use(VueRouter)
 
@@ -15,7 +16,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: News
   },
   {
     path: '/about',
@@ -59,6 +60,11 @@ const routes = [
     path: '/addnews',
     name: 'AddNews',
     component: AddNews
+  },
+  {
+    path: '/adduser',
+    name: 'AddUser',
+    component: AddUser
   }
 ]
 

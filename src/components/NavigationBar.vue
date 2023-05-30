@@ -27,11 +27,23 @@
                             }}</b-dropdown-item>
                         </b-dropdown>
                     </li>
-                    <li class="nav-item" v-if="canLogout">
-                        <router-link :to="{name: 'AddNews'}"  class="nav-link" :class="{active: this.$router.currentRoute.name === 'AddNews'}">Add News</router-link>
+                    <li class="nav-item ccli" v-if="canLogout">
+                        <b-dropdown text="Content-Creator" variant="primary" class="e-auto mb-2 mb-lg-0 ctgdrop">
+                            <b-dropdown-item>
+                                Categories
+                            </b-dropdown-item>
+                            <b-dropdown-item>
+                                News
+                            </b-dropdown-item>
+                        </b-dropdown>
                     </li>
-
-
+                    <li class="nav-item ccli" v-if="canLogout && adminCheck">
+                        <b-dropdown text="Admin" variant="success" class="e-auto mb-2 mb-lg-0 ctgdrop">
+                            <b-dropdown-item @click="goToUsers()">
+                                Users
+                            </b-dropdown-item>
+                        </b-dropdown>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto" v-if="canLogout">
                     <li class="nav-item">
@@ -64,7 +76,9 @@ export default {
             if (this.token != null) {
                 let payload = this.token.split(".")[1];
                 let u = JSON.parse(atob(payload));
-                let username = JSON.stringify(u.sub);
+                let username = JSON.stringify(u.name);
+                this.admin = JSON.stringify(u.type);
+                console.log("KORISNIK: " + JSON.stringify(u.type) + " Admin: " + this.admin);
                 this.user = username;
             }
             this.$forceUpdate();
@@ -79,7 +93,8 @@ export default {
             categoryList: [],
             token: "",
             isJwtSet: null,
-            user: ""
+            user: "",
+            admin: 0
         };
     },
     mounted() {
@@ -107,6 +122,10 @@ export default {
         },
         getUser() {
             return username;
+        },
+        goToUsers(){
+            console.log("users");
+            //this.$router.push({name: "Users"});
         }
     },
     computed: {
@@ -115,7 +134,14 @@ export default {
                 return false;
             }
             return true;
+        },
+        adminCheck(){
+            if (this.admin == 1){
+                return true;
+            }
+            return false;
         }
+
     },
     components: { router }
 }
@@ -129,6 +155,9 @@ export default {
     color: #198754;
     margin-top: 14px;
     margin-right: 12px;
+}
+.ccli{
+    padding-left: 8px;
 }
 
 </style>
