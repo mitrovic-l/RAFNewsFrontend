@@ -23,90 +23,133 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: News
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: News,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/news',
     name: 'News',
-    component: News
+    component: News,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/news/:id',
     name: 'Single News',
-    component: SingleNews
+    component: SingleNews,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/popularnews',
     name: 'PopularNews',
-    component: PopularNews
+    component: PopularNews,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/category/:id',
     name: 'Category',
-    component: NewsInCategory
+    component: NewsInCategory,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/news/withtag/:id',
     name: 'NewsWithTag',
-    component: NewsWithTag
+    component: NewsWithTag,
+    meta: {
+      auth: false
+    }
   },
   {
     path: '/addnews',
     name: 'AddNews',
-    component: AddNews
+    component: AddNews,
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/adduser',
     name: 'AddUser',
-    component: AddUser
+    component: AddUser,
+    meta: {
+      auth: true,
+      admin: true
+    }
   },
   {
     path: '/users',
     name: 'Users',
-    component: Users
+    component: Users,
+    meta: {
+      auth: true,
+      admin: true
+    }
   },
   {
     path: '/edituser/:id',
     name: 'EditUser',
-    component: EditUser
+    component: EditUser,
+    meta: {
+      auth: true,
+      admin: true
+    }
   },
   {
     path: '/categories',
     name: 'Categories',
-    component: Categories
+    component: Categories,
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/categories/edit/:id',
     name: 'EditCategory',
-    component: EditCategory
+    component: EditCategory,
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/addcategory',
     name: 'AddCategory',
-    component: AddCategory
+    component: AddCategory,
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/creatornews',
     name: 'CreatorNews',
-    component: NewsForCreator
+    component: NewsForCreator,
+    meta: {
+      auth: true
+    }
   },
   {
     path: '/editnews/:id',
     name: 'EditNews',
-    component: EditNews
+    component: EditNews,
+    meta: {
+      auth: true
+    }
   }
 ]
 
@@ -115,5 +158,27 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth) {
+    const jwt = localStorage.getItem('token');
+    if (!jwt) {
+      next({name: 'Login'});
+      return;
+    }
+
+    const payload = JSON.parse(atob(jwt.split('.')[1]));
+
+    const type = payload.type;
+    if (to.meta.admin) {
+      if (type != 1) {
+        alert("Only admin can work with users");
+        return;
+      }
+    }
+  }
+
+  next();
+});
 
 export default router
