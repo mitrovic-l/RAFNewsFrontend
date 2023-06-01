@@ -29,7 +29,7 @@
                     </li>
                     <li class="nav-item ccli" v-if="canLogout">
                         <b-dropdown text="Content-Creator" variant="primary" class="e-auto mb-2 mb-lg-0 ctgdrop">
-                            <b-dropdown-item>
+                            <b-dropdown-item @click="goToCategories">
                                 Categories
                             </b-dropdown-item>
                             <b-dropdown-item>
@@ -79,7 +79,7 @@ export default {
                 let username = JSON.stringify(u.name);
                 this.admin = JSON.stringify(u.type);
                 console.log("KORISNIK: " + JSON.stringify(u.type) + " Admin: " + this.admin);
-                this.user = username;
+                this.user = username.replaceAll("\"", "");
             }
             this.$forceUpdate();
         }
@@ -121,11 +121,14 @@ export default {
             });
         },
         getUser() {
-            return username;
+            return username.replaceAll("\"", "");
         },
         goToUsers(){
             console.log("users");
             this.$router.push({name: "Users"});
+        },
+        goToCategories(){
+            this.$router.push({name: 'Categories'});
         }
     },
     computed: {

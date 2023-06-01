@@ -85,7 +85,7 @@ export default {
                 }).then((response => {
                     const user = response.data;
                     if (user.id != null) {
-                        this.$router.push({ name: 'News' });
+                        this.$router.push({ name: 'Users' });
                     } else {
                         alert("A user with the same email address already exists!");
                         return;

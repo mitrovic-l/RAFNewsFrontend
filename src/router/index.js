@@ -11,6 +11,9 @@ import AddNews from '../views/AddNews.vue'
 import AddUser from '../views/AddUser.vue'
 import Users from '../views/Users.vue'
 import EditUser from '../views/EditUser.vue'
+import Categories from '../views/Categories.vue'
+import EditCategory from '../views/EditCategory.vue'
+import AddCategory from '../views/AddCategory.vue'
 
 Vue.use(VueRouter)
 
@@ -77,6 +80,21 @@ const routes = [
     path: '/edituser/:id',
     name: 'EditUser',
     component: EditUser
+  },
+  {
+    path: '/categories',
+    name: 'Categories',
+    component: Categories
+  },
+  {
+    path: '/categories/edit/:id',
+    name: 'EditCategory',
+    component: EditCategory
+  },
+  {
+    path: '/addcategory',
+    name: 'AddCategory',
+    component: AddCategory
   }
 ]
 

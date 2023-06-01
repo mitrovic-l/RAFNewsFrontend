@@ -42,7 +42,11 @@ export default ({
         let id = this.$route.params.id;
         this.$axios.get('/api/news/category/'+id).then((response) => {
             this.newsList = response.data;
-            this.category = this.newsList[0].categoryName;
+            //this.category = this.newsList[0].categoryName;
+            this.$axios.get('/api/categories/find/'+id).then((response => {
+                let c = response.data;
+                this.category = c.name;
+            }));
             console.log(this.newsList);
         })
     },
