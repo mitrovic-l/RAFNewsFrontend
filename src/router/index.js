@@ -15,6 +15,7 @@ import Categories from '../views/Categories.vue'
 import EditCategory from '../views/EditCategory.vue'
 import AddCategory from '../views/AddCategory.vue'
 import NewsForCreator from '../views/NewsForCreator.vue'
+import EditNews from '../views/EditNews.vue'
 
 Vue.use(VueRouter)
 
@@ -101,6 +102,11 @@ const routes = [
     path: '/creatornews',
     name: 'CreatorNews',
     component: NewsForCreator
+  },
+  {
+    path: '/editnews/:id',
+    name: 'EditNews',
+    component: EditNews
   }
 ]
 

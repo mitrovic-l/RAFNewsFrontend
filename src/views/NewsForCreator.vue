@@ -11,7 +11,7 @@
                     <p> ( {{ news.categoryName }} )</p>
                     <p>{{ news.createdAt }}</p>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-secondary" @click="">Edit</button>
+                        <button type="button" class="btn btn-secondary" @click="editNews(news.id)">Edit</button>
                         <button type="button" class="btn btn-danger" @click="deleteNews(news.id)">Delete</button>
                     </div>
                 </div>
@@ -69,6 +69,9 @@ export default ({
         },
         addNews(){
             this.$router.push({name: 'AddNews'});
+        },
+        editNews(id){
+            this.$router.push('/editnews/'+id);
         }
     },
     computed: {
