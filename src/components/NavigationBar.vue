@@ -32,7 +32,7 @@
                             <b-dropdown-item @click="goToCategories">
                                 Categories
                             </b-dropdown-item>
-                            <b-dropdown-item>
+                            <b-dropdown-item @click="goToCreatorNews">
                                 News
                             </b-dropdown-item>
                         </b-dropdown>
@@ -129,6 +129,9 @@ export default {
         },
         goToCategories(){
             this.$router.push({name: 'Categories'});
+        },
+        goToCreatorNews(){
+            this.$router.push({name: 'CreatorNews'});
         }
     },
     computed: {
