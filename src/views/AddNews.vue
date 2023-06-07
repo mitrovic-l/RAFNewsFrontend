@@ -93,7 +93,7 @@ export default {
                 let token = localStorage.getItem('token');
                 let payload = token.split(".")[1];
                 let u = JSON.parse(atob(payload));
-                let author = JSON.stringify(u.name);
+                let author = JSON.stringify(u.name).replaceAll('\"', "");
                 this.$axios.post('/api/news', {
                     title: this.form.title,
                     author: author,

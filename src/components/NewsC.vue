@@ -1,9 +1,9 @@
 <template>
     <div class="singlenews">
         <h1>{{ news.title }}</h1>
-        <p class="pdate">Objavljeno: {{ news.createdAt }}</p>
-        <p class="pauthor">{{ news.author }}</p>
-        <p>{{ news.categoryName }}</p>
+        <p class="pdate">Objavljeno: {{ news.createdAt | dateFilter }}</p>
+        <p class="pauthor">Autor: {{ news.author }}</p>
+        <p><u>Kategorija: {{ news.categoryName }}</u></p>
         <p>{{ news.content }}</p>
 
        <br>
@@ -37,12 +37,10 @@
                 </b-form>
         <h3>Comments</h3>
         <div class="divcomments" v-for="comment in news.comments" :key="comment.author + news.id">
-            <h5>{{ comment.author }}</h5>
-            <p>{{ comment.text }}
-                <br>
-                
+            <h5 class="comm"><b>{{ comment.author }}</b></h5>
+            <p class="commtext comm">{{ comment.text }}
             </p>
-            <small class="pdate">{{ comment.postedAt }}</small>
+            <small class="pdate comm">Postavljeno: {{ comment.postedAt }}</small>
 
         </div>
     </div>
@@ -66,6 +64,14 @@ export default {
     },
     mounted() {
     },
+    filters: {
+        dateFilter(value){
+            let a = value.split('-');
+
+            return a[2]+'.'+a[1]+'.'+a[0]+'.';
+        }
+    },
+
     methods: {
         onSubmit(e) {
             e.preventDefault();
@@ -114,10 +120,18 @@ export default {
     margin-bottom: 0;
     padding-bottom: 0;
     color: gray;
+    margin-top: 0;
 }
 
 .pauthor {
     font-weight: 600;
+    margin-bottom: 2px;
+}
+.commtext{
+    margin-bottom: 0px;
+}
+.comm{
+    margin-left: 12px;
 }
 
 .divcomments {
@@ -125,9 +139,6 @@ export default {
     margin-bottom: 8px;
     border: 1px solid gray;
     width: 100%;
-    /* padding-left: 24px;
-    padding-right: 24px;
-    padding-bottom: 12px; */
     margin-bottom: 8px;
     cursor: pointer;
 }

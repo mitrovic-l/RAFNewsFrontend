@@ -19,7 +19,6 @@
         </ul>
         <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="itemList" align="center">
         </b-pagination>
-
     </div>
 </template>
 <script>

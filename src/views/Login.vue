@@ -51,6 +51,12 @@ export default {
                     email: this.form.username,
                     password: this.form.password
                 }).then((response) => {
+                    if (response.data.inactive){
+                        alert("Inactive users cannot log in!");
+                        this.form.email = '';
+                        this.form.password = '';
+                        return;
+                    }
                     localStorage.setItem('token', response.data.jwt);
                     this.$parent.jwttoken = response.data.jwt;
                     this.$router.push({ name: 'News' });
