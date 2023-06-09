@@ -161,9 +161,15 @@ export default {
     color: #198754;
     margin-top: 14px;
     margin-right: 12px;
+    font-weight: 600;
 }
 .ccli{
     padding-left: 8px;
 }
-
+.navbar-brand{
+    color: #5cb85c;
+}
+.active{
+    color: #5cb85c;
+}
 </style>

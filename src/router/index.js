@@ -172,7 +172,8 @@ router.beforeEach((to, from, next) => {
     const type = payload.type;
     if (to.meta.admin) {
       if (type != 1) {
-        alert("Only admin can work with users");
+        alert("Admin privileges required!");
+        next({name: 'News'});
         return;
       }
     }

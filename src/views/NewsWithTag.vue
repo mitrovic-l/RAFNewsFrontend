@@ -88,7 +88,18 @@ export default ({
 .newsInfoDiv {
     margin-top: 8px;
     margin-bottom: 12px;
-    border: 2px solid black;
+    border: 2px solid #292b2c ;
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+.newsInfoDiv:hover{
+    margin-top: 8px;
+    margin-bottom: 12px;
+    border: 2px solid #0275d8 ;
     width: 100%;
     padding-left: 24px;
     padding-right: 24px;
