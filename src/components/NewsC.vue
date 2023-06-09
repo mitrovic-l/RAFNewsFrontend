@@ -13,8 +13,8 @@
         </button>
         <br>
         <br>
-                <br>
-                <h5>Leave a comment</h5>
+                <hr>
+                <h4>Leave a comment</h4>
                 <b-form @submit.stop.prevent @submit="onSubmit" class="commentsform">
                     <b-form-group label="Name" label-for="username">
                         <b-form-input :state="validatorUsername" id="username" v-model="form.username" type="text"
@@ -40,7 +40,7 @@
             <h5 class="comm"><b>{{ comment.author }}</b></h5>
             <p class="commtext comm">{{ comment.text }}
             </p>
-            <small class="pdate comm">Postavljeno: {{ comment.postedAt }}</small>
+            <small class="pdate comm">Postavljeno: {{ comment.postedAt | dateFilter}}</small>
 
         </div>
     </div>
@@ -136,10 +136,10 @@ export default {
 
 .divcomments {
     margin-top: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     border: 1px solid gray;
     width: 100%;
-    margin-bottom: 8px;
+    padding-bottom: 24px;
     cursor: pointer;
 }
 .commentsform{

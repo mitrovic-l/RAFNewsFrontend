@@ -12,8 +12,9 @@
             <li v-for="news in itemsForList" :key="news.id">
                 <div class="newsInfoDiv" @click="goToNews(news.id)">
                     <h3><b>{{ news.title }}</b></h3>
+                    <h5>Views: {{ news.views }}</h5>
                     <p> ( {{ news.categoryName }} )</p>
-                    <p>{{ news.createdAt }}</p>
+                    <p>{{ news.createdAt | dateFilter}}</p>
                     <p>{{ news.content | shortText }}</p>
                 </div>
             </li>
@@ -65,6 +66,11 @@ export default ({
             } else {
                 return value.slice(0, 317) + '...';
             }
+        },
+        dateFilter(value){
+            let a = value.split('-');
+
+            return a[2]+'.'+a[1]+'.'+a[0]+'.';
         }
     },
     methods: {

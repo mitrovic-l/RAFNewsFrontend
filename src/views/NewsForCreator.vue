@@ -9,7 +9,7 @@
                 <div class="newsInfoDiv">
                     <h3 @click="goToNews(news.id)"><b>{{ news.title }}</b></h3>
                     <p> ( {{ news.categoryName }} )</p>
-                    <p>{{ news.createdAt }}</p>
+                    <p>{{ news.createdAt | dateFilter}}</p>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-secondary" @click="editNews(news.id)">Edit</button>
                         <button type="button" class="btn btn-danger" @click="deleteNews(news.id)">Delete</button>
@@ -53,6 +53,11 @@ export default ({
             } else {
                 return value.slice(0, 317) + '...';
             }
+        },
+        dateFilter(value){
+            let a = value.split('-');
+
+            return a[2]+'.'+a[1]+'.'+a[0]+'.';
         }
     },
     methods: {

@@ -51,10 +51,10 @@
                         <p class="customlink">Hello, {{ user }}</p>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-2 my-lg-1">
                     <router-link v-if="!canLogout" :to="{name: 'Login'}" tag="a" class="nav-link" :class="{active: this.$router.currentRoute.name === 'Login'}">Log In</router-link>
                     <div v-else>
-                        <button class="btn btn-outline-success" @click="logOut">Log Out</button>
+                        <button class="btn btn-outline-danger" @click="logOut">Log Out</button>
                     </div>
                 </form>
             </div>

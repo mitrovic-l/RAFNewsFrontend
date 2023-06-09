@@ -9,27 +9,31 @@
                 <div class="userInfoDiv">
                     <!-- ubaci tabelu ovde -->
                     <br>
-                    <b><h4><u>USER: {{ user.firstname }} {{ user.lastname }} </u></h4></b>
+                    <b>
+                        <h4><u>USER: {{ user.firstname }} {{ user.lastname }} </u></h4>
+                    </b>
                     <hr>
                     <div class="userInfoDiv" style="text-align: justify;">
                         <b>
-                        <p>ID: {{ user.id }}</p>
-                        <p :id="user.id">STATUS: {{ user.status }}</p>
-                        <p>USER TYPE: {{ user.type }}</p>
+                            <p>ID: {{ user.id }}</p>
+                            <p :id="user.id">STATUS: {{ user.status }}</p>
+                            <p>USER TYPE: {{ user.type }}</p>
                         </b>
                     </div>
 
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button v-if="isCreator(user.type)" type="button" class="btn btn-outline-primary" @click="changeStatus(user.id, user.status)">Change status</button>
-                        <button type="button" class="btn btn-secondary" @click="editUser(user.id)">Edit</button>
+                        <button v-if="isCreator(user.type)" type="button" class="btn btn-outline-primary"
+                            @click="changeStatus(user.id, user.status)">Change status</button>
+                        <button type="button" class="btn btn-dark btn-outline-info" @click="editUser(user.id)">Edit</button>
                         <button type="button" class="btn btn-danger" @click="deleteUser(user.id)">Delete</button>
                     </div>
                 </div>
             </li>
         </ul>
-
-        <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="itemList">
-        </b-pagination>
+        <div class="d-flex justify-content-center">
+            <b-pagination v-model="currentPage" :total-rows="rows" :per-page="perPage" aria-controls="itemList">
+            </b-pagination>
+        </div>
 
     </div>
 </template>
@@ -84,47 +88,50 @@ export default {
 
     },
     methods: {
-        isCreator(type){
-            if (type != "Admin"){
+        isCreator(type) {
+            if (type != "Admin") {
                 return true;
             }
         },
-        changeStatus(id, status){
+        changeStatus(id, status) {
             let newstatus = '';
-            if (status == 'Active'){
+            if (status == 'Active') {
                 newstatus = 'Not Active';
             } else {
                 status = 'Active';
             }
             let email = '';
-            for (const u of this.userList){
-                if (id == u.id){
-                    email = u.email;
-                }
-            }
-            if (email != ''){
-                this.$axios.get('/api/users/status/'+email).then((response => {
-                    window.location.reload();
-                }));
-            }
-        },
-        editUser(id){
-            this.$router.push('/edituser/'+id);
-        },
-        addUser(){
-            this.$router.push({name: 'AddUser'});
-        },
-        deleteUser(id){
-            let email = '';
-            for (const u of this.userList){
-                if (id == u.id){
+            for (const u of this.userList) {
+                if (id == u.id) {
                     email = u.email;
                 }
             }
             if (email != '') {
-                this.$axios.delete('/api/users/delete/'+email).then((response => {
+                this.$axios.get('/api/users/status/' + email).then((response => {
                     window.location.reload();
                 }));
+            }
+        },
+        editUser(id) {
+            this.$router.push('/edituser/' + id);
+        },
+        addUser() {
+            this.$router.push({ name: 'AddUser' });
+        },
+        deleteUser(id) {
+            let email = '';
+            for (const u of this.userList) {
+                if (id == u.id) {
+                    email = u.email;
+                }
+            }
+            if (email != '') {
+                if (confirm("Are you sure you want to delete this user?")) {
+                    this.$axios.delete('/api/users/delete/' + email).then((response => {
+                        window.location.reload();
+                    }));
+                }
+
             }
         }
     }
@@ -145,6 +152,7 @@ export default {
 
 .users {
     text-align: center;
+    align-items: center;
 }
 
 ul {
@@ -154,5 +162,4 @@ ul {
 
 .btn {
     margin: 12px;
-}
-</style>
+}</style>
